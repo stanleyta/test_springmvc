@@ -3,6 +3,8 @@ package com.prxmt.controller;
 import java.net.UnknownHostException;
 import java.util.Date;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -20,9 +22,12 @@ import com.prxmt.util.MongoUtil;
 @Controller
 public class FirstController {
 
+    private static final transient Logger log = LoggerFactory.getLogger(FirstController.class);
+
     @RequestMapping("/first")
     public ModelAndView helloWorld() throws UnknownHostException {
     	String message = "";
+        log.info("My First Application");
     	NewModel model = new NewModel();
     	
     	MongoUtil mongoUtil = new MongoUtil();
