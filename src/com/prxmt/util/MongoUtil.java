@@ -25,7 +25,7 @@ public class MongoUtil {
 	public MongoUtil() throws UnknownHostException {
 		mongoClient = new MongoClient( "localhost" , 27017 );
 	}
-    public void InitMongoTester() throws UnknownHostException {
+    public void initMongoFirstCollection() throws UnknownHostException {
 		db = mongoClient.getDB( "firstDb" );
 		coll = db.getCollection("firstCollection");
     }

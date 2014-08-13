@@ -25,12 +25,12 @@ public class MongoPopulateUtil {
 	public MongoPopulateUtil() throws UnknownHostException {
 		mongoClient = new MongoClient( "localhost" , 27017 );
 	}
-    public void InitMongoDB() throws UnknownHostException {
+    public void initUsersCollectionMongoDB() throws UnknownHostException {
 		db = mongoClient.getDB( "firstDb" );
 		coll = db.getCollection("Users");
     }
 
-    public void PopulateSampleCollections() {
+    public void populateUsersCollection() {
     	//insert a record
 		BasicDBObject doc = new BasicDBObject("_id", "stanleyta")
 		.append("email", "stanleyta@gmail.com")
