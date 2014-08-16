@@ -17,20 +17,39 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 
-public class MongoUtil {
-	MongoClient mongoClient;
-	DB db;
-	DBCollection coll;
-	
-	public MongoUtil() throws UnknownHostException {
-		mongoClient = new MongoClient( "localhost" , 27017 );
+public class MongoManager {
+	private static MongoManager instance = null;
+	protected MongoManager() {} // Exists only to defeat instantiation.
+	public static MongoManager getInstance() {
+	  if (instance == null) {
+		  instance = new MongoManager();
+		  try {
+			instance.initMongoFirstCollection();
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
+	  }
+	  return instance;
 	}
+	
+	private MongoClient mongoClient = null;
+	private DB db;
+	private DBCollection coll;
+	
     public void initMongoFirstCollection() throws UnknownHostException {
+		mongoClient = new MongoClient( "localhost" , 27017 );
 		db = mongoClient.getDB( "firstDb" );
 		coll = db.getCollection("firstCollection");
     }
+
+    public void setDB(String dbName) {
+		db = mongoClient.getDB(dbName);
+    }
+    public void setCollection(String collectionName) {
+		coll = db.getCollection(collectionName);
+    }
     
-    public String ListAllRecords() {
+    public String listAllRecordsHTML() {
     	String message = "<br/><br/>listing ALL records: <br/>";
 
     	DBCursor cursor = coll.find();
@@ -45,7 +64,7 @@ public class MongoUtil {
     	
     	return message;
     }
-    public String DeleteAllRecords() {
+    public String deleteAllRecordsHTML() {
     	String message = "<br/><br/>delete subset records: <br/>";
     	//delete subset of records
     	DBCursor cursor = coll.find();
@@ -65,5 +84,16 @@ public class MongoUtil {
     	ArrayList<BasicDBObject> list = new ArrayList<BasicDBObject>();//coll.distinct(null);
     	list.add((BasicDBObject) coll.findOne());
     	return list;
+    }
+
+    public void insertBasicDBObject(BasicDBObject doc) {
+    	//insert a record
+    	coll.insert(doc);
+    }
+    public DBObject findOne() {
+    	return coll.findOne();
+    }
+    public DBCursor find() {
+    	return coll.find();
     }
 }

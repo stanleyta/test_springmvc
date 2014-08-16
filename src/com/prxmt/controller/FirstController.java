@@ -39,25 +39,24 @@ public class FirstController {
     	Subject subject = SecurityUtils.getSubject();
     	Object obj = subject.getPrincipal();
     	
-    	MongoUtil mongoFirstCollectionUtil = new MongoUtil();
-    	mongoFirstCollectionUtil.initMongoFirstCollection();
-    	MongoPopulateUtil mongoPopUtil = new MongoPopulateUtil();
-    	mongoPopUtil.initUsersCollectionMongoDB();
+    	MongoManager mongoManager = MongoManager.getInstance();
+    	mongoManager.initMongoFirstCollection();
+    	MongoPopulater mongoPopr = new MongoPopulater();
 
     	//mongoPopUtil.PopulateSampleCollections();
     	//model.message += mongoUtil.ListAllRecords();
     	
     	//model.message += mongoPopUtil.PopulateTestCollection();
     	//model.message += mongoPopUtil.InsertTestRecord();
-    	model.message += mongoPopUtil.FindTestRecord();
+    	model.message += mongoPopr.FindTestRecord();
     	//model.message += mongoPopUtil.FindASubsetOfTestRecords();
     	//model.message += mongoPopUtil.ModifyRecordByPut();
     	//model.message += mongoPopUtil.ModifyTestRecordWith$setAnd$inc();
     	//model.message += mongoUtil.DeleteAllRecords();
     	//model.message += mongoPopUtil.DeleteSubsetTestRecords();
-    	model.message += mongoFirstCollectionUtil.ListAllRecords();
+    	model.message += mongoManager.listAllRecordsHTML();
     	
-    	model.records = mongoFirstCollectionUtil.GetAllRecords();
+    	model.records = mongoManager.GetAllRecords();
     	
     	message += "<br/><br/>ok now the rest: <br/>";
         message += "<br><div align='center'>" + "<h1>Hello World, Spring 3.2.1 Example by Crunchify.com<h1> <br>";
