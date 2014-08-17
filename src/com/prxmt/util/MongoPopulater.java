@@ -6,6 +6,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -18,24 +20,17 @@ import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 
 public class MongoPopulater {
-//	MongoClient mongoClient = null;
-//	DB db;
-//	DBCollection coll;
+	private static final Logger logger = LogManager.getLogger(MongoPopulater.class.getName());
 	MongoManager mongoManager = MongoManager.getInstance();
 	
 	public MongoPopulater() throws UnknownHostException {
-//		if (mongoClient == null) {
-//			mongoClient = new MongoClient( "localhost" , 27017 );	
-//			db = mongoClient.getDB( "firstDb" );
-//			coll = db.getCollection("Users");		
-//		}
 		mongoManager.setCollection("Users");
 	}
 
     public void populateUsersCollection() {
     	//insert a record
 		BasicDBObject doc = new BasicDBObject("_id", "stanleyta")
-		.append("email", "stanleyta@gmail.com")
+		.append("email", "stanleyta@email.com")
 		.append("created_date", new Date())
 		.append("password", "password")
 		.append("info", new BasicDBObject("x", 1).append("y", 1));
@@ -74,7 +69,7 @@ public class MongoPopulater {
     	String message = "inserted document: " + doc;
     	return message;
     }
-    public String FindTestRecord() {
+    public String findTestRecord() {
     	//find one
         String message = null;
     	DBObject myDoc = mongoManager.findOne();

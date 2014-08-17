@@ -10,7 +10,7 @@
 
 <c:forEach items="${model.records}" var="record">
 <p class="first">LISTING FOREACH IN JSP</p>
-  <c:out value="count: ${record.get(\"count\")}"/> <i>$<c:out value="count: ${record.get(\"count\")}"/></i><br><br>
+  <c:out value="all count: ${model.records.size()}"/> <i>$<c:out value="_id: ${record.get(\"_id\")}"/></i><br><br>
 </c:forEach>
 
 
