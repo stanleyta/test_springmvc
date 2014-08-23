@@ -1,4 +1,4 @@
-package com.prxmt.util;
+package com.prxmt.security;
 
 import org.apache.logging.log4j.*;
 import org.apache.shiro.SecurityUtils;
@@ -23,7 +23,7 @@ public class ShiroAuthentication {
             //collect user principals and credentials in a gui specific manner 
             //such as username/password html form, X509 certificate, OpenID, etc.
             //We'll use the username/password example here since it is the most common.
-            UsernamePasswordToken token = new UsernamePasswordToken("admin", "admin");
+            UsernamePasswordToken token = new UsernamePasswordToken("admin", "password");
             token.setRememberMe(true);
 
             try {
@@ -31,12 +31,16 @@ public class ShiroAuthentication {
                 //if no exception, that's it, we're done!
             } catch ( UnknownAccountException uae ) {
                 //username wasn't in the system, show them an error message?
+                log.info(uae.getMessage(), uae);
             } catch ( IncorrectCredentialsException ice ) {
                 //password didn't match, try again?
+                log.info(ice.getMessage(), ice);
             } catch ( LockedAccountException lae ) {
                 //account for that username is locked - can't login.  Show them a message?
+                log.info(lae.getMessage(), lae);
             } catch ( AuthenticationException ae ) {
                 //unexpected condition - error?
+                log.info(ae.getMessage(), ae);
             }
             
             Session session = currentUser.getSession();

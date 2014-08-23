@@ -3,24 +3,48 @@
     xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
           http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
     version="3.0">
-  <display-name>SpringMVC</display-name>
-  <welcome-file-list>
-    <welcome-file>index.jsp</welcome-file>
-  </welcome-file-list>
-  <servlet>
-    <servlet-name>prxmt_servlet</servlet-name>
-    <servlet-class>
+	<display-name>SpringMVC</display-name>
+
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+
+	<servlet>
+		<servlet-name>prxmt_servlet</servlet-name>
+		<servlet-class>
             org.springframework.web.servlet.DispatcherServlet
-        </servlet-class>
-    <load-on-startup>1</load-on-startup>
-  </servlet>
-   <listener>
-	<listener-class>
+		</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<listener>
+		<listener-class>
              com.prxmt.listener.MongoServletContextListener 
-    </listener-class>
-   </listener>
-  <servlet-mapping>
-    <servlet-name>prxmt_servlet</servlet-name>
-    <url-pattern>*.html</url-pattern>
-  </servlet-mapping>
+		</listener-class>
+	</listener>
+
+	<servlet-mapping>
+		<servlet-name>prxmt_servlet</servlet-name>
+		<url-pattern>*.html</url-pattern>
+	</servlet-mapping>
+
+	<listener>
+		<listener-class>org.apache.shiro.web.env.EnvironmentLoaderListener</listener-class>
+	</listener>
+	<filter>
+		<filter-name>ShiroFilter</filter-name>
+		<filter-class>org.apache.shiro.web.servlet.ShiroFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>ShiroFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+		<dispatcher>REQUEST</dispatcher> 
+		<dispatcher>FORWARD</dispatcher> 
+		<dispatcher>INCLUDE</dispatcher> 
+		<dispatcher>ERROR</dispatcher>
+	</filter-mapping>
+	<context-param>
+		<param-name>shiroEnvironmentClass</param-name>
+		<param-value>com.prxmt.security.FirstEnvironmentLoader</param-value>
+	</context-param>
 </web-app>

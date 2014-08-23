@@ -7,6 +7,8 @@ import javax.servlet.ServletContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,28 +18,45 @@ import org.springframework.web.servlet.ModelAndView;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.MongoClient;
+import com.prxmt.backend.MongoManager;
+import com.prxmt.backend.MongoPopulater;
 import com.prxmt.models.NewModel;
+import com.prxmt.security.ShiroAuthentication;
 import com.prxmt.util.*;
 
 @Controller
 public class FirstController {
 	private static final Logger logger = LogManager.getLogger(FirstController.class.getName());
 
-	@Autowired
+	@Autowired // tells the application context to inject an instance of UserService here
 	ServletContext context;
-    @RequestMapping("/first")
-    public ModelAndView helloWorld() throws UnknownHostException {
-    	String message = "";
-    	
-    	logger.debug("this is a sample log message.");
-    	logger.info("My First Application");
-        
-    	NewModel model = new NewModel();
+
+	@RequestMapping("/first")
+	public ModelAndView helloWorld() throws UnknownHostException {
+		logger.debug("this is a sample log message.");
+		logger.info("First Application");
+
+		NewModel model = new NewModel();
 
     	ShiroAuthentication authentication = new ShiroAuthentication();
     	authentication.Init();
     	Subject subject = SecurityUtils.getSubject();
     	Object obj = subject.getPrincipal();
+    	
+    	
+    	
+    	Subject usr = SecurityUtils.getSubject();
+    	UsernamePasswordToken token = new UsernamePasswordToken("mike", "abcdef");
+    	try {
+    	    usr.login(token);
+    	} 
+    	catch (AuthenticationException ae) {
+    		logger.error(ae.toString()) ;
+    	    //return ;
+    	}
+    	logger.info("User [" + usr.getPrincipal() + "] logged in successfully.");
+    	
+    	
 
     	MongoClient mongoClient = (MongoClient) context.getAttribute("mongoClient");
     	DB db = (DB) context.getAttribute("db");
@@ -62,9 +81,8 @@ public class FirstController {
     	
     	model.records = mongoManager.getAllRecords();
     	
-    	message += "<br/><br/>ok now the rest: <br/>";
-        message += "<br><div align='center'>" + "<h1>Hello World, Spring 3.2.1 Example by Crunchify.com<h1> <br>";
-        message += "<a href='http://crunchify.com/category/java-web-development-tutorial/'>More Examples</a>";
+    	model.message += "<br/><br/>now the rest: <br/>";
+    	model.message += "<br><div align='center'>" + "<h1>Hello World<h1> <br>";
         return new ModelAndView("first", "model", model);
     }
 }

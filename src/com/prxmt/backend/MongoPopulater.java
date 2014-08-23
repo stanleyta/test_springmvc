@@ -1,23 +1,12 @@
-package com.prxmt.util;
+package com.prxmt.backend;
 
 import java.net.UnknownHostException;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import java.util.Random;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
-
 import com.mongodb.BasicDBObject;
-import com.mongodb.DB;
-import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
-import com.mongodb.MongoClient;
 
 public class MongoPopulater {
 	private static final Logger logger = LogManager.getLogger(MongoPopulater.class.getName());
@@ -28,6 +17,7 @@ public class MongoPopulater {
 	}
 
     public void populateUsersCollection() {
+    	logger.debug("in populateUsersCollection");
     	//insert a record
 		BasicDBObject doc = new BasicDBObject("_id", "stanleyta")
 		.append("email", "stanleyta@email.com")
@@ -39,6 +29,7 @@ public class MongoPopulater {
     }
 
     public String PopulateTestCollection() {
+    	logger.debug("in PopulateTestCollection");
     	String message = "populating collection with 10 documents";
     	for (int i = 0; i < 10; i++) {
         	Date date = new Date();
@@ -55,6 +46,7 @@ public class MongoPopulater {
     	return message;
     }
     public String InsertTestRecord() {
+    	logger.debug("in InsertTestRecord");
     	//initialize
     	Date date = new Date();
     	//insert a record
@@ -70,6 +62,7 @@ public class MongoPopulater {
     	return message;
     }
     public String findTestRecord() {
+    	logger.debug("in findTestRecord");
     	//find one
         String message = null;
     	DBObject myDoc = mongoManager.findOne();
@@ -89,6 +82,7 @@ public class MongoPopulater {
     	return message;
     }
 //    public String FindASubsetOfTestRecords() {
+//	logger.debug("in FindASubsetOfTestRecords");
 //    	String message = "<br/><br/>subset records: <br/>";
 //    	//find subset of records
 //    	DBCursor cursor = coll.find();
@@ -106,6 +100,7 @@ public class MongoPopulater {
 //    	return message;
 //    }
 //    public String ModifyTestRecordByPut() {
+//	logger.debug("in ModifyTestRecordByPut");
 //    	String message = "<br/><br/>inserted record to be modified (replaced): <br/>";
 //    	BasicDBObject query = 
 //    			new BasicDBObject().append("info", new BasicDBObject("x", 205).append("y",  101));
@@ -118,6 +113,7 @@ public class MongoPopulater {
 //    	return message;
 //    }
 //    public String ModifyTestRecordWith$setAnd$inc() {
+//	logger.debug("in ModifyTestRecordWith$setAnd$inc");
 //    	//update only single record with $set
 ////    	Random rand = new Random();
 ////    	int randomNum = rand.nextInt(10);
@@ -140,6 +136,7 @@ public class MongoPopulater {
 //    	return message;
 //    }
 //    public String DeleteSubsetTestRecords() {
+//	logger.debug("in DeleteSubsetTestRecords");
 //    	String message = "<br/><br/>delete all records: <br/>";
 //    	//delete subset of records
 //    	BasicDBObject query = new BasicDBObject("count", 3);

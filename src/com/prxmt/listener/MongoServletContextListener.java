@@ -32,6 +32,7 @@ public class MongoServletContextListener implements ServletContextListener{
 		try {
 			mongoClient = new MongoClient("localhost", 27017 );
 		} catch (UnknownHostException e) {
+			logger.error(e.getMessage(), e);	
 			e.printStackTrace();
 		}
 		db = mongoClient.getDB("firstDb");
@@ -41,7 +42,5 @@ public class MongoServletContextListener implements ServletContextListener{
 		cntxt.setAttribute("mongoClient", mongoClient);
 		cntxt.setAttribute("db", db);
 		cntxt.setAttribute("coll", coll);
-		
-		//this.getServletContext().getAttribute("list")
 	}
 }
